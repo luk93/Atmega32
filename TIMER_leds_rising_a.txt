@@ -1,0 +1,27 @@
+#include <avr/io.h>
+#include <stdio.h>
+#include <avr/interrupt.h>
+#include <avr/delay.h>
+
+int main() {
+DDRD=255;
+PORTD=255;
+
+TCCR1B|= (1<<WGM13)|(1<<WGM12)|(1<<CS10)|(1<<CS12);
+TCCR1A|= (1<<WGM11)|(1<<COM1A1)|(1<<COM1B1);
+ICR1=100;
+
+int a=0;
+int b=0;
+
+while(1) {
+a++;
+_delay_ms(100);
+b++;
+_delay_ms(100);
+OCR1A=i;
+OCR1B=i;
+
+
+}
+}

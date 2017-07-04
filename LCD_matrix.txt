@@ -1,0 +1,23 @@
+#include <avr/io.h> #include <avr/delay.h>	
+led[10]={ 0b01100000, 0b11111001, 0b10100100, 0b10110000, 0b10011001, 0b10010010, 0b10000010, 0b11111000, 0b10000000, 0b10010000}
+int main(void){
+DDRA=255;
+DDRB=255;
+while(1){
+for(int m=0; m<=9; m++){
+	for(int l=0; l<=9; l++){
+		for(int k=0; k<=9; k++){
+			for(int i=0; i<=9; j++){
+				for(int j=0; j<=5; j++){
+				PORTB=0b01111111;
+				PORTA=led[i];
+				_delay_ms(100);
+PORTB=0b10111111;
+				PORTA=led[k];
+				_delay_ms(100);
+				PORTB=0b11011111;
+				PORTA=led[l];
+				_delay_ms(100);
+				PORTB=0b11101111;
+				PORTA=led[m];
+				_delay_ms(100);}}}}}}}

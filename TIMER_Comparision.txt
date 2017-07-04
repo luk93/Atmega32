@@ -1,0 +1,17 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+int main(void){
+DDRA=255;
+PORTA=255;
+int a=0;
+TCCR0|=(1<<CS01)|(1<<CS00)|(1<<WGM01);
+TCNT0=0;
+OCR0=124;
+	while(1){
+		if(TIFR&(1<<OCF0)){
+		a++;
+TIFR &= (1<<OCF0);
+		if(a>124){
+		PORTA=~PORTA;
+		a=0;
+		}}}}

@@ -1,0 +1,12 @@
+#include <avr/io.h> #include <avr/delay.h>
+Int main(void){
+int i=0;
+int j=0;
+DDRA=255;
+while(1){
+for(i=0; i<8; i++){
+PORTA|=(1<<i);
+_delay_ms(500);}
+For(j=0; i<8; i++){
+PORTA=(255>>j);
+_delay_ms(500);}

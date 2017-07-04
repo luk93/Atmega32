@@ -1,0 +1,44 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+#include "hd44780.h"
+#include <stdio.h>
+#include <avr/interrupt.h>
+volatile int a=0;
+volatile char b[5];
+
+int main(){
+DDRD=0b00000000;
+PORTD=0xFF;
+DDRA=0xFF;
+lcd_init();
+LCD_DISPLAY(LCDDISPLAY);
+LCD_CLEAR;
+
+GICR|=(1<<INT1)|(1<<INT0);
+MCUCR|=(1<<ISC11)|(1<<ISC01);
+sei();
+while(1)
+	{}
+}
+ISR(INT0_vect)
+{
+LCD_CLEAR;
+a++;
+itoa(a,b,10);
+LCD_LOCATE(0,0);
+lcd_puts("Wyswielanie:");
+LCD_LOCATE(0,1);
+lcd_puts(b);
+_delay_ms(50);
+}
+ISR(INT1_vect)
+{
+LCD_CLEAR;
+a--;
+itoa(a,b,10);
+LCD_LOCATE(0,0);
+lcd_puts("Wyswielanie:");
+LCD_LOCATE(0,1);
+lcd_puts(b);
+_delay_ms(50);
+}

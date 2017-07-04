@@ -1,0 +1,20 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+#include "hd44780.h"
+
+int main(){
+DDRA=0xFF;
+lcd_init();
+LCD_DISPLAY(LCDDISPLAY);
+
+	while(1){
+	LCD_CLEAR;
+	_delay_ms(2000);
+	LCD_LOCATE(0,0);
+	lcd_puts("Systemy");
+	_delay_ms(2000);
+	LCD_LOCATE(0,1);
+	lcd_puts("Wbudowane");
+	_delay_ms(2000);
+	}
+}

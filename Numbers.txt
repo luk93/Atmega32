@@ -1,0 +1,26 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+int main(void){
+DDRA=0xFF;
+DDRB=0xFF;
+while(1){
+PORTB=0x00;
+PORTA=0b11111001;
+_delay_ms(1000);
+PORTA=0b10100100;
+_delay_ms(1000);
+PORTA=0b10110000;
+_delay_ms(1000);
+PORTA=0b10011001;
+_delay_ms(1000);
+PORTA=0b10010010;
+_delay_ms(1000);
+PORTA=0b10000010;
+_delay_ms(1000);
+PORTA=0b11111000;
+_delay_ms(1000);
+PORTA=0b10000000;
+_delay_ms(1000);
+PORTA=0b10010000;
+_delay_ms(1000);
+}}

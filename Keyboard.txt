@@ -1,0 +1,33 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+int main(void)
+{DDRA=0b00001111;
+DDRB=0xFF;PORTB=0;
+	while(1)	{
+		PORTA=0b11111110;
+		_delay_ms(1);
+		if(bit_is_clear(PINA, 0))
+		{PORTB=0b00000001;
+		_delay_ms(1);}
+		if(bit_is_clear(PINA, 1))
+		{PORTB=0b00000010;
+		_delay_ms(1);}
+		if(bit_is_clear(PINA, 2))
+		{PORTB=0b00000100;
+_delay_ms(1);}
+		if(bit_is_clear(PINA, 3))
+		{PORTB=0b00001000;
+_delay_ms(1);}	
+PORTA=0b11111101;
+if(bit_is_clear(PINA, 4))
+		{PORTB=0b00000001;
+		_delay_ms(1);}
+		if(bit_is_clear(PINA, 5))
+		{PORTB=0b00000010;
+		_delay_ms(1);}
+		if(bit_is_clear(PINA, 6))
+		{PORTB=0b00000100;
+		_delay_ms(1);}
+		if(bit_is_clear(PINA, 7))
+		{PORTB=0b00001000;
+		_delay_ms(1);	}

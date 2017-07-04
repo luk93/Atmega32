@@ -1,0 +1,15 @@
+int main(void)
+{
+DDRD=0b00000000;
+PORTD=0xFF;
+DDRB=0xFF;
+GICR|=(1<<INT1)|(1<<INT0);
+MCUCR|=(1<<ISC11)|(1<<ISC01);
+sei();
+	while(1)
+	{}
+	}
+	ISR(INT0_vect){
+	PORTB=0xFF;}
+	ISR(INT1_vect){
+	PORTB=0x00;}

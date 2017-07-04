@@ -1,0 +1,280 @@
+#include <avr/io.h>
+#include <avr/delay.h>
+#include <stdio.h>
+#include "hd44780.h"
+#include <avr/interrupt.h>
+int b=0;
+int c=0;
+int wynik=0;
+volatile char znak[5];
+int licznik=1;
+int dzialanie=0;
+char x;
+int main()
+{
+    DDRD=0b00000000;
+    PORTD=0xFF;
+    sei();
+    DDRB=0b00001111;
+    DDRA=0xFF;
+    lcd_init();
+    LCD_DISPLAY(LCDDISPLAY);
+    LCD_CLEAR;
+    LCD_LOCATE(0,0);
+    lcd_puts("Lukasz Ligaj");
+    _delay_ms(2000);
+    LCD_CLEAR;
+
+    while(1)
+    {
+        if(licznik==1)
+        {
+        wczytaj_liczbe();
+        }
+        if(licznik==2)
+        {
+        wczytaj_znak();
+        }
+        if(licznik==3)
+        {
+        wczytaj_liczbe();
+        }
+        if(licznik==4)
+        {
+        wczytaj_znak_rownosci();    
+        }
+    }
+}
+void wczytaj_liczbe()
+    {
+    PORTB=0b11111110;
+    _delay_ms(10);
+    if(bit_is_clear(PINB,4))
+        {
+        czysc();
+        liczba(1);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,5))
+        {
+        czysc();
+        liczba(2);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,6))
+        {
+        czysc();
+        liczba(3);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    PORTB=0b11111101;
+    _delay_ms(10);
+    if(bit_is_clear(PINB,4))
+        {
+        czysc();
+        liczba(4);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,5))
+        {
+        czysc();
+        liczba(5);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,6))
+        {
+        czysc();
+        liczba(6);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    PORTB=0b11111011;
+    _delay_ms(10);
+    if(bit_is_clear(PINB,4))
+        {
+        czysc();
+        liczba(7);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,5))
+        {
+        czysc();
+        liczba(8);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    if(bit_is_clear(PINB,6))
+        {
+        czysc();
+        liczba(9);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    PORTB=0b11110111;
+    _delay_ms(10);
+    if(bit_is_clear(PINB,4))
+        {
+        _delay_ms(100);
+        LCD_CLEAR;
+        licznik=1;
+        }
+    if(bit_is_clear(PINB,5))
+        {
+        czysc();
+        liczba(0);
+        lcd_puts(znak);
+        _delay_ms(100);
+        if(licznik==1){ licznik=2;}
+        if(licznik==3){ licznik=4;}
+        }
+    }
+
+void wczytaj_znak()
+{
+    PORTB=0b11111110;
+    if(bit_is_clear(PINB,7))
+        {
+        x="+";
+        lcd_puts(x);
+        _delay_ms(100);
+        dzialanie=1;
+        licznik=3;
+        }
+    PORTB=0b11111101;
+    if(bit_is_clear(PINB,7))
+        {
+        x="-";
+        lcd_puts(x);
+        _delay_ms(100);
+        dzialanie=2;
+        licznik=3;
+        }
+    PORTB=0b11111011;
+    if(bit_is_clear(PINB,7))
+        {
+        x="*";
+        lcd_puts(x);
+        _delay_ms(100);
+        dzialanie=3;
+        licznik=3;
+        }
+    PORTB=0b11110111;
+    if(bit_is_clear(PINB,7))
+        {
+        x="/";
+        lcd_puts(x);
+        _delay_ms(100);
+        dzialanie=4;
+        licznik=3;
+        }
+    if(bit_is_clear(PINB,4))
+        {
+        _delay_ms(100);
+        LCD_CLEAR;
+        licznik=1;
+        }
+}    
+int liczba(int a)
+{
+    if(licznik==1)
+    {
+        b=a;
+        itoa(b,znak,10);
+    }
+    if(licznik==3)
+    {
+        c=a;
+        itoa(c,znak,10);
+    }
+    
+}
+
+void wczytaj_znak_rownosci()
+{
+    PORTB=0b11110111;
+    if(bit_is_clear(PINB,6))
+    {
+        lcd_puts("=");
+        _delay_ms(100);
+        if(dzialanie==1)
+        {
+            wynik=b+c;
+            LCD_LOCATE(0,1);
+            itoa(wynik,znak,10);
+            lcd_puts(znak);
+            licznik=1;
+        }
+        if(dzialanie==2)
+        {
+            wynik=b-c;
+            LCD_LOCATE(0,1);
+            itoa(wynik,znak,10);
+            lcd_puts(znak);
+            licznik=1;
+        }
+        if(dzialanie==3)
+        {
+            wynik=b*c;
+            LCD_LOCATE(0,1);
+            itoa(wynik,znak,10);
+            lcd_puts(znak);
+            licznik=1;
+        }            
+        if(dzialanie==4)
+        {
+            if(c!=0)
+            {
+                wynik=b/c;
+                LCD_LOCATE(0,1);
+                itoa(wynik,znak,10);
+                lcd_puts(znak);
+                licznik=1;
+            }            
+            else
+            {
+                LCD_LOCATE(0,1);
+                lcd_puts("blad");
+                licznik=1;
+            }        
+        }
+        
+    }
+    if(bit_is_clear(PINB,4))
+    {
+        _delay_ms(100);
+        LCD_CLEAR;
+        licznik=1;
+    }
+}
+void czysc()
+{
+    if(licznik==1)
+        {
+        LCD_CLEAR;
+        LCD_LOCATE(0,0);
+        }
+}
